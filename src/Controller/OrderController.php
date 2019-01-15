@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Order;
+use App\Form\Order\FilterType;
+use App\Order\Model\FilterModel;
 use App\Repository\OrderRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,14 +22,29 @@ class OrderController extends AbstractController
      */
     public function index(OrderRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
+        $form = $this->createForm(FilterType::class, new FilterModel());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->getData();
+        } else {
+            $filter = new FilterModel();
+        }
+
+        $builder = $repository->getQueryBuilder();
+        $repository->applyFilter($builder, $filter);
+        $query = $builder->getQuery();
+        $repository->makeEager($query);
+
         $orders = $paginator->paginate(
-            $repository->getEagerQuery(),
+            $query,
             $request->query->getInt('page', 1),
             20
         );
 
         return $this->render('order/index.html.twig', [
             'orders' => $orders,
+            'form' => $form->createView(),
         ]);
     }
 
