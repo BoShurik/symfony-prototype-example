@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Order;
+use App\Repository\OrderRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,13 +18,13 @@ class OrderController extends AbstractController
     /**
      * @Route("/", name="order_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(OrderRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
-        $orders = $this->getDoctrine()
-            ->getRepository(Order::class)
-            ->getEagerQuery()
-            ->getResult()
-        ;
+        $orders = $paginator->paginate(
+            $repository->getEagerQuery(),
+            $request->query->getInt('page', 1),
+            20
+        );
 
         return $this->render('order/index.html.twig', [
             'orders' => $orders,

@@ -8,13 +8,13 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>User</th>
-                <th>Currency</th>
-                <th>Amount</th>
-                <th>Message</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
+                <th>{{ knp_pagination_sortable(orders, 'Id', 'o.id') }}</th>
+                <th>{{ knp_pagination_sortable(orders, 'User', 'o.user') }}</th>
+                <th>{{ knp_pagination_sortable(orders, 'Currency', 'o.currency') }}</th>
+                <th>{{ knp_pagination_sortable(orders, 'Amount', 'o.amount') }}</th>
+                <th>{{ knp_pagination_sortable(orders, 'Message', 'o.message') }}</th>
+                <th>{{ knp_pagination_sortable(orders, 'CreatedAt', 'o.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(orders, 'UpdatedAt', 'o.updatedAt') }}</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -39,4 +39,6 @@
         {% endfor %}
         </tbody>
     </table>
+
+    {{ knp_pagination_render(orders) }}
 {% endblock %}
