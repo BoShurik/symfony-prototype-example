@@ -9,6 +9,8 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>User</th>
+                <th>Currency</th>
                 <th>Amount</th>
                 <th>Message</th>
                 <th>CreatedAt</th>
@@ -20,6 +22,8 @@
         {% for order in orders %}
             <tr>
                 <td>{{ order.id }}</td>
+                <td>{{ order.user.name }}</td>
+                <td>{{ order.currency.name }}</td>
                 <td>{{ order.amount }}</td>
                 <td>{{ order.message }}</td>
                 <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>

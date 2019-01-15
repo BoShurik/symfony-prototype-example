@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/order")
+ * @Route("/")
  */
 class OrderController extends AbstractController
 {
