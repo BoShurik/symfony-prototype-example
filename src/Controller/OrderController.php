@@ -20,7 +20,9 @@ class OrderController extends AbstractController
     {
         $orders = $this->getDoctrine()
             ->getRepository(Order::class)
-            ->findAll();
+            ->getEagerQuery()
+            ->getResult()
+        ;
 
         return $this->render('order/index.html.twig', [
             'orders' => $orders,
